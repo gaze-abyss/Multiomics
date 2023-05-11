@@ -14,6 +14,6 @@ Transcriptome analysis code
 Include all test data
 
 ## If you have used code from this web page, please cite the article:
-'''
-
-'''
+```
+Wang Gangjian et al.,xxxxxxx,2023
+```
