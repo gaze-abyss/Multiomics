@@ -1,6 +1,7 @@
-work_dir <- 'F:\\weidanbaizu5\\15\\16s\\gj\\'
+####################update 2023/5/24
+##########downstream analysis for 16s
+work_dir <- '/path/test/'
 
-########################
 library(igraph)
 library(ggsci)
 library(scales)
@@ -17,10 +18,9 @@ get_col <- function(one){
 }
 
 G <- list()
-
 set.seed(3)
 
-#伪 p 值矩阵
+#Pseudo-p-valued matrix
 exp1 <- read.delim(paste0(work_dir,'t1.txt'), row.names = 1, sep = '\t', check.names = FALSE)
 pvals1 <- read.delim(paste0(work_dir,'boot1/pvals.two_sided.txt'), row.names = 1, sep = '\t', check.names = FALSE)
 
@@ -80,12 +80,6 @@ for(i in 1:length(conn)){
 }
 
 V(net)$vertex.color <- '#E18727FF'
-# V(net)$vertex.color <- rowMeans(exp1)
-
-# data.frame( color = heat.colors(length(rowMeans(exp1)), rev = T),levels = rowMeans(exp1))[,'color']
-
-# #Color scaling function
-# V(net)$vertex.color = data.frame( color = heat.colors(length(rowMeans(exp1)), rev = T),levels = rowMeans(exp1))[,'color']
 
 edge_table <- as_data_frame(net, what = c("edges"))
 edge_table$cor <- unlist(lapply(as.list(w_list1[paste0(edge_table[,1],'-',edge_table[,2])]),function(x) {if(x>0){'+'}else{'-'}} ))
@@ -156,29 +150,13 @@ all_score_mat <- rbind(score_mat_1,score_mat_2)
 all_score_mat[,1] <- (all_score_mat[,1]-min(all_score_mat[,1]))/(max(all_score_mat[,1])-min(all_score_mat[,1]))
 write.table(all_score_mat,file=paste0(work_dir,'all_score_mat.txt'),quote=F,sep='\t')
 
-#ran <- quantile(as.numeric(all_score_mat[,1]), probs = c(0.01,0.99))
 ran <- quantile(as.numeric(abundance_score_1), probs = c(0.01,0.99))
 all_score_mat[,1][which(all_score_mat[,1] < 0.2)] <- 0.2
 hub_score_1 <- all_score_mat[all_score_mat[,2] == 'hub_score_1',][,1]
 hub_score_2 <- all_score_mat[all_score_mat[,2] == 'hub_score_2',][,1]
 
-# V(G[[1]])$vertex.color <- circlize::colorRamp2(c(ran[1],ran[2]),c("white","#B33B2A"))(hub_score_1)
-# V(G[[2]])$vertex.color <- circlize::colorRamp2(c(ran[1],ran[2]),c("white","#B33B2A"))(hub_score_2)
 V(G[[1]])$vertex.color <- circlize::colorRamp2(c(ran[1],ran[2]),c("pink","#B33B2A"))(abundance_score_1*2)
 V(G[[2]])$vertex.color <- circlize::colorRamp2(c(ran[1],ran[2]),c("pink","#B33B2A"))(abundance_score_2*2)
-
-l[names(V(net)) == 'Bacteroides',2] <- l[names(V(net)) == 'Bacteroides',2] + 100
-l[names(V(net)) == 'Fusobacterium',1] <- l[names(V(net)) == 'Fusobacterium',1] - 400
-l[names(V(net)) == 'Fusobacterium',2] <- l[names(V(net)) == 'Fusobacterium',2] + 350
-l[names(V(net)) == 'Brevundimonas',1] <- l[names(V(net)) == 'Brevundimonas',1] - 550
-l[names(V(net)) == 'Brevundimonas',2] <- l[names(V(net)) == 'Brevundimonas',2] + 100
-l[names(V(net)) == 'Allobaculum',2] <- l[names(V(net)) == 'Allobaculum',2] - 800
-l[names(V(net)) == 'Treponema',1] <- l[names(V(net)) == 'Treponema',1] - 100
-l[names(V(net)) == 'Streptococcus',2] <- l[names(V(net)) == 'Streptococcus',2] + 100
-l[names(V(net)) == 'Propionibacterium',1] <- l[names(V(net)) == 'Propionibacterium',1] + 200
-l[names(V(net)) == 'Propionibacterium',2] <- l[names(V(net)) == 'Propionibacterium',2] + 100
-l[names(V(net)) == 'Lachnoanaerobaculum',1] <- l[names(V(net)) == 'Lachnoanaerobaculum',1] - 100
-l[names(V(net)) == 'Lachnoanaerobaculum',2] <- l[names(V(net)) == 'Lachnoanaerobaculum',2] + 100
 
 pdf(paste0(work_dir,'network.all.pdf'),width = 20,height = 10)
 par(mfrow=c(1,2), mar=c(1,1,1,1))
@@ -191,8 +169,6 @@ plot(G[[1]],layout=l, #layout_with_fr
      vertex.label.cex = 1.2,
      vertex.size = hub_score_1*1.5*15)
 text(x = -1, y = 1.1, 'A', cex=2.5)
-# legend("topright", legend = c("     1","     0.8","     0.4","     <=0.2"),title.adj=0.5,cex=1,bty='o',col='#E18727FF',y.intersp = 3,pch = 19, pt.cex = (1*8)*seq(1,0.2,-0.2),pt.lwd = 1,title = "Hub centrality score", trace=F)
-#legend("bottomright", legend = c("Positive correlation","Negative correlation"),lty = 1,lwd=3.5,pt.cex=3.5,y.intersp = 2,col=c('#B33B2A','#106CA9'))
 legend("bottomleft", legend = c("      0.9","      0.6","      0.3","      0"),title.adj=0.5,cex=1,bty='o',col='#E18727FF',y.intersp = 3.2,pch = 19, pt.cex = (1*11)*seq(1,0.2,-0.2),pt.lwd = 1,title = "Hub centrality score", trace=F)
 plot(G[[2]],layout=l, #layout_with_fr
      edge.color = E(G[[2]])$edge.color,
@@ -203,9 +179,7 @@ plot(G[[2]],layout=l, #layout_with_fr
      vertex.label.cex = 1.2,
      vertex.size = hub_score_2*1.5*15)
 text(x = -1, y = 1.1, 'B', cex=2.5)
-# legend("topright", legend = c("     1","     0.8","     0.4","     <=0.2"),title.adj=0.5,cex=1,bty='o',col='#E18727FF',y.intersp = 3,pch = 19, pt.cex = (1*8)*seq(1,0.2,-0.2),pt.lwd = 1,title = "Hub centrality score", trace=F)
 legend("bottomright", legend = c("Positive correlation","Negative correlation"),lty = 1,lwd=3.5,pt.cex=3.5,y.intersp = 2,col=c('#B33B2A','#106CA9'))
-#legend("bottomleft", legend = c("     1","     0.8","     0.4","     <=0.2"),title.adj=0.5,cex=1,bty='o',col='#E18727FF',y.intersp = 4,pch = 19, pt.cex = (1*8)*seq(1,0.2,-0.2),pt.lwd = 1,title = "Hub centrality score", trace=F)
 dev.off()
 
 pdf(paste0(work_dir,'colorlegend.pdf'),width = 5,height = 10)
