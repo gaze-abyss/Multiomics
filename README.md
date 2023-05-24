@@ -4,14 +4,18 @@ Multiomics data were used to study the typing of gastric cancer. Please read the
 ## Code availability
 This page includes the code used in the analysis of the article and some test data, as well as some picture drawing methods.
 
-### code1.R
-Proteomic analysis code
-### code2.R
-Phosphotomic analysis code
-### code3.py
-Transcriptome analysis code
-### test
-Include all test data
+### plot_code.R
+Code for drawing.
+### run_sc.R
+The scRNA-seq analysis code
+### run_clustering.R
+Clustering analysis code.
+### run_Wilcoxon.R
+Wilcoxon rank-sum test-Difference analysis.
+### run_SVM.R
+SVM analysis code.
+### run_RNA-PROcor.R
+Correlation analysis for RNA-PRO.
 
 ## If you have used code from this web page, please cite the article:
 ```
