@@ -16,6 +16,8 @@ Wilcoxon rank-sum test-Difference analysis.
 SVM analysis code.
 ### run_RNA-PROcor.R
 Correlation analysis for RNA-PRO.
+### run_sparcc.sh
+The command line for analyzing 16S data.
 
 ## If you have used code from this web page, please cite the article:
 ```
