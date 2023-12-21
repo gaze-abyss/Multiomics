@@ -1,5 +1,5 @@
 # Multiomics analysis based on gastric cancer
-Multiomics data were used to study the typing of gastric cancer. Please read the article for details:<>
+Multiomics data were used to study the typing of gastric cancer. Please read the article for details:_Integrated multi-omics profiling identified targeted strategies of gastric cancer subtypes_
 
 ## Code availability
 This page includes the code used in the analysis of the article and some test data, as well as some picture drawing methods.
@@ -23,5 +23,5 @@ The data in the test folder can be used to test the above code.
 
 ## If you have used code from this web page, please cite the article:
 ```
-Wang Gangjian et al.,xxxxxxx,2023
+Wang Gangjian et al.,Integrated multi-omics profiling identified targeted strategies of gastric cancer subtypes,2023
 ```
