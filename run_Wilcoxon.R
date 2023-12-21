@@ -1,6 +1,6 @@
 ##############update 2023/5/24
 ####Wilcoxon rank-sum test-Difference analysis
-setwd("/path/test/")
+setwd("/path/")
 dat <- read.table('pro_matrix.txt',sep = '\t',header = T,row.names = 1)
 group <- read.table('group.txt',header = T)
 group <- group[order(group$id),]
@@ -39,5 +39,3 @@ for (i in colnames(dat)[1:(ncol(dat)-1)]) {
 
 p_just <- p.adjust(pl, "BH")
 output <- data.frame(gene=colnames(dat)[-ncol(dat)],V=wl,pvalue=pl,p_just=p_just,LogFC=LFC,T_mean=T_mean,N_mean=N_mean)#Difference analysis results 
-
-
