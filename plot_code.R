@@ -2,7 +2,7 @@
 #####code for plot
 library(ggalluvial)
 library(dplyr)
-setwd("path/test/")
+setwd("path/")
 df <- read.table("clinical.txt",sep = "\t",row.names = 1,header = T)
 head(df)
 
