@@ -1,6 +1,6 @@
 ####################update 2023/5/24
 ##########downstream analysis for 16s
-work_dir <- '/path/test/'
+work_dir <- '/path/'
 
 library(igraph)
 library(ggsci)
@@ -78,12 +78,10 @@ for(i in 1:length(conn)){
     pick <- i
   }
 }
-
 V(net)$vertex.color <- '#E18727FF'
 
 edge_table <- as_data_frame(net, what = c("edges"))
 edge_table$cor <- unlist(lapply(as.list(w_list1[paste0(edge_table[,1],'-',edge_table[,2])]),function(x) {if(x>0){'+'}else{'-'}} ))
-write.table(edge_table,file=paste0(work_dir,'edge_table.1.txt'),quote=F,sep='\t')
 
 E(net)$edge.color <- unlist(lapply(as.list(w_list1[paste0(edge_table[,1],'-',edge_table[,2])]),function(x) {if(x>0){'#B33B2A'}else{'#106CA9'}} ))
 
@@ -99,10 +97,6 @@ score_mat_1 <- data.frame(
   name = 'hub_score_1'
 )
 
-# scale_hub_score_1 <- (hub_score_1 - min(hub_score_1))/(max(hub_score_1)-min(hub_score_1))
-# ran <- quantile(as.numeric(hub_score_1+1), probs = c(0.05,0.95))
-# V(net)$vertex.color <- circlize::colorRamp2(c(ran[1],ran[2]),c("white","#B33B2A"))(hub_score_1+1)
-
 G[[1]] <- net
 
 net <- graph_from_adjacency_matrix(as.matrix(adj2), mode = 'undirected')
@@ -117,7 +111,6 @@ for(i in 1:length(conn)){
     pick <- i
   }
 }
-
 V(net)$vertex.color <- '#E18727FF'
 
 edge_table <- as_data_frame(net, what = c("edges"))
@@ -157,7 +150,7 @@ hub_score_2 <- all_score_mat[all_score_mat[,2] == 'hub_score_2',][,1]
 
 V(G[[1]])$vertex.color <- circlize::colorRamp2(c(ran[1],ran[2]),c("pink","#B33B2A"))(abundance_score_1*2)
 V(G[[2]])$vertex.color <- circlize::colorRamp2(c(ran[1],ran[2]),c("pink","#B33B2A"))(abundance_score_2*2)
-
+##############plot##########################
 pdf(paste0(work_dir,'network.all.pdf'),width = 20,height = 10)
 par(mfrow=c(1,2), mar=c(1,1,1,1))
 plot(G[[1]],layout=l, #layout_with_fr
@@ -181,7 +174,6 @@ plot(G[[2]],layout=l, #layout_with_fr
 text(x = -1, y = 1.1, 'B', cex=2.5)
 legend("bottomright", legend = c("Positive correlation","Negative correlation"),lty = 1,lwd=3.5,pt.cex=3.5,y.intersp = 2,col=c('#B33B2A','#106CA9'))
 dev.off()
-
 pdf(paste0(work_dir,'colorlegend.pdf'),width = 5,height = 10)
 color3 <- colorRampPalette(c("pink","#B33B2A"))(200)
 plot(y = c(1, (length(color3) + 1)), x = c(1, 2),xaxs = 'i', yaxs = 'i', xaxt = 'n', yaxt = 'n',type = 'n', ann = F)
