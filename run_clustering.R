@@ -20,8 +20,8 @@ data2 <- RunPCA(data2, verbose = FALSE)
 data3 <- FindNeighbors(data2, dims = 1:15)
 data4 <- FindClusters(data3, resolution =1.15, verbose = FALSE)
 data4@active.ident
-tmp2 = data4@active.ident
 
+tmp2 = data4@active.ident
 tmp3 <- as.data.frame(tmp2)
 colnames(tmp3) <- "group"
 
@@ -69,7 +69,6 @@ names(ICIcol)=levels(factor(Type$NewSubtype))
 ann_colors[["NewSubtype"]]=ICIcol
 
 #next plot
-
 pheatmap(data,
          annotation=Type,
          annotation_colors = ann_colors,
