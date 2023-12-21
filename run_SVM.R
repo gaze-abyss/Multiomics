@@ -1,6 +1,6 @@
 ####################update 2023/5/24
 ##########SVM
-setwd("/path/test/")           #set path
+setwd("/path/")           #set path
 
 library(data.table)
 library(e1071)
@@ -37,9 +37,9 @@ model <- tune.svm(x = x,
                     tunecontrol = tc)
 n=model$best.parameters
 model <- tune.svm(x = x,
-y = y,
-kernel = 'linear',
-cost = n)
+                  y = y,
+                  kernel = 'linear',
+                  cost = n)
 summary(model)
 svm_model <- model$best.model
 svm_train <- predict(svm_model,x)
