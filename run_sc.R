@@ -12,10 +12,10 @@ library(tidyverse)
 library(ggalluvial)
 library(data.table)
 library(ggsci)
-setwd("/path/test/") #set path
+setwd("/path/") #set path
 
-harmonyrna <- readRDS("merge_T.rds") 
-test.list <- SplitObject(harmonyrna, split.by ="orig.ident")
+scrna <- readRDS("merge_T.rds") 
+test.list <- SplitObject(scrna, split.by ="orig.ident")
 test.list <- lapply(X = test.list, FUN = function(x) {
   x <- NormalizeData(x)
   x <- FindVariableFeatures(x,nfeatures = 3000)
@@ -160,8 +160,8 @@ tab3$label=paste0(tab3$Percent, "%")
 
 bioCol=c("#106CA9",	"#B33B2A","#21804C","#D8822B",
          "#DDCD7E","#79508C","#B1A5C8","#FA5E5C",
-         "#E00F0A","#3D6197","#6D6466","#282424"
-)
+         "#E00F0A","#3D6197","#6D6466","#282424")
+
 p=ggplot(tab3, aes(x = factor(Subtype), y = Percent, fill = Cell)) +#ggtitle("")+
   geom_bar(position = position_stack(), stat = "identity", width = .7) +
   scale_fill_manual(values=bioCol)+theme(axis.title.x=element_text(angle=90,size=20,vjust=2))+
