@@ -1,6 +1,6 @@
 ###############date 2023/5/24
 ####correlation analysis for RNA-PRO
-setwd("/path/test/")
+setwd("/path/")
 
 dat <- read.table('RNA-PRO-merge.txt',header=T,stringsAsFactors=F)
 rn <- dat[,1]
